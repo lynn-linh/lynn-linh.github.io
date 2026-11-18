@@ -53,14 +53,6 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-sans
 .lr-card__summary { margin: 0; font: 400 15px/24px var(--font-mono); color: var(--ink-muted); }
 .lr-card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
 .lr-card:hover .lr-card__title { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 6px; text-decoration-thickness: 2px; }
-/* a card with no case study yet: a <div>, not a link; no hover underline; a "Case study coming soon" line under the tags */
-.lr-card--soon { cursor: default; }
-.lr-card--soon:hover .lr-card__title { text-decoration: none; }
-.lr-card__soon {
-  display: flex; align-items: center; gap: 8px; margin: var(--space-2) 0 0; padding-top: var(--space-2);
-  border-top: 1px solid var(--line); font: 500 12px/16px var(--font-mono); color: var(--ink-muted);
-}
-.lr-card__soon::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--butter); outline: 1px solid var(--ink); }
 
 /* AvatarIntro — the pixel avatar with a game dialogue box */
 .lr-intro { display: flex; align-items: flex-end; gap: var(--space-6); flex-wrap: wrap; }
@@ -625,7 +617,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
 </defs></svg>
 <div class="pg lb">
   <header class="nav">
-    <a class="brand" href="index.html"><img src="lynn-forest.webp" alt=""><b>Lynn Racelo<i>.</i></b></a>
+    <a class="brand" href="index.html"><img src="lynn-sprout.png" alt=""><b>Lynn Racelo<i>.</i></b></a>
     <nav class="links"><a href="#projects">projects</a><a href="#about">about</a><a href="resume.html">résumé</a><span class="lr-tag lr-tag--status">Let's work together</span><button class="lr-theme-toggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="lr-theme-toggle__night" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-crescent"/></svg><svg class="lr-theme-toggle__day" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg></button></nav>
   </header>
   <section class="banner">
@@ -637,7 +629,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
       <p class="bio">Driven by a yearning to care for others, I pursued clinical nutrition and fitness. Now, at the MIMS program at UC Berkeley, I'm learning to build health technology that can empower others. I start every problem by trying to see it from a multidisciplinary lens.</p>
       <div class="ctas"><a class="lr-btn lr-btn--primary" href="#projects"><svg class="lr-btn__spark" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg>See my projects</a><a class="lr-btn lr-btn--secondary" href="https://www.linkedin.com/in/lynn-racelo/">Get in touch</a></div></div>
     <ul class="facts">
-      <li><b>interested in</b> product</li>
+      <li><b>interested in</b> health technology</li>
       <li><b>studying</b> MIMS, UC Berkeley</li>
       <li><b>foundation</b> clinical nutrition</li>
       <li><b>based in</b> San Francisco, CA</li>
@@ -672,7 +664,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
   <button class="lr-tab" data-filter="play" aria-pressed="false">Play <span class="lr-tab__count"></span></button>
 </div></div>
     <div class="grid" >
-<div class="lr-card lr-card--soon lr-reveal" style="--i:0" data-lr-trail="forest" data-tags="research health">
+<a class="lr-card lr-reveal" style="--i:0" data-lr-trail="forest" data-tags="research health" href="coming-soon.html">
   <div class="lr-card__media ph" style="background:var(--mist)">
     <i style="background:var(--paper);left:10%;top:14%;width:24%;height:86%;border-radius:var(--radius-sm)"></i>
     <i style="background:var(--moss);left:14%;top:26%;width:16%;height:10%;border-radius:2px"></i>
@@ -681,9 +673,9 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
     <i style="background:var(--paper);left:66%;top:34%;width:24%;height:66%;border-radius:var(--radius-sm)"></i>
     <i style="background:var(--persimmon);left:70%;top:46%;width:12%;height:8%;border-radius:2px"></i>
   </div>
-  <div class="lr-card__body"><h3 class="lr-card__title">Excel-PD: one home for an exercise study</h3><p class="lr-card__summary">Research surveys, exercise tracking and direct chats with study teams, to make research operations easier.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sprout">UI exploration</span><span class="lr-tag">Ideation</span></div><p class="lr-card__soon">Case study coming soon</p></div>
-</div>
-<div class="lr-card lr-card--soon lr-reveal" style="--i:1" data-tags="health">
+  <div class="lr-card__body"><h3 class="lr-card__title">Excel-PD: one home for an exercise study</h3><p class="lr-card__summary">Research surveys, exercise tracking and direct chats with study teams, to make research operations easier.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sprout">UI exploration</span><span class="lr-tag">Ideation</span></div></div>
+</a>
+<a class="lr-card lr-reveal" style="--i:1" data-tags="health" href="coming-soon.html">
   <div class="lr-card__media ph" style="background:var(--paper-deep)">
     <i style="background:var(--persimmon);left:12%;top:20%;width:30%;height:56%;border-radius:var(--radius-pill)"></i>
     <i style="background:var(--paper);left:48%;top:14%;width:30%;height:86%;border-radius:var(--radius-md)"></i>
@@ -691,9 +683,9 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
     <i style="background:var(--sprout);left:53%;top:62%;width:14%;height:6%;border-radius:2px"></i>
     <svg class="px" style="left:80%;top:16%" width="28" height="28" aria-hidden="true"><use href="#px-leaf" class="lr-m-moss" width="28" height="28" style="--px-second:var(--sprout)"/></svg>
   </div>
-  <div class="lr-card__body"><h3 class="lr-card__title">Sano: calorie tracking by photo</h3><p class="lr-card__summary">Calorie tracking app: computer vision helps log what's on your plate.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sky">Freelance</span><span class="lr-tag">UX design</span><span class="lr-tag">Health and wellness</span></div><p class="lr-card__soon">Case study coming soon</p></div>
-</div>
-<div class="lr-card lr-card--soon lr-reveal" style="--i:2" data-lr-trail="forest" data-tags="play research">
+  <div class="lr-card__body"><h3 class="lr-card__title">Sano: calorie tracking by photo</h3><p class="lr-card__summary">Calorie tracking app: computer vision helps log what's on your plate.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sky">Freelance</span><span class="lr-tag">UX design</span><span class="lr-tag">Health and wellness</span></div></div>
+</a>
+<a class="lr-card lr-reveal" style="--i:2" data-lr-trail="forest" data-tags="play research" href="coming-soon.html">
   <div class="lr-card__media ph" style="background:var(--paper-deep)">
     <i style="background:var(--moss);left:30%;top:44%;width:40%;height:40%;border-radius:0 0 var(--radius-pill) var(--radius-pill)"></i>
     <i style="background:var(--sprout);left:33%;top:44%;width:34%;height:10%;border-radius:2px"></i>
@@ -701,14 +693,14 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
     <svg class="px" style="left:14%;top:18%" width="35" height="35" aria-hidden="true"><use href="#px-leaf" class="lr-m-moss" width="35" height="35" style="--px-second:var(--sprout)"/></svg>
     <svg class="px" style="left:78%;top:56%" width="21" height="21" aria-hidden="true"><use href="#px-leaf" class="lr-m-sprout" width="21" height="21" style="--px-second:var(--moss)"/></svg>
   </div>
-  <div class="lr-card__body"><h3 class="lr-card__title">Matcha tutorial game</h3><p class="lr-card__summary">A game that teaches you to whisk matcha and doubles as a fine motor skills test.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--butter">In progress</span><span class="lr-tag">Just for fun</span><span class="lr-tag">Health</span></div><p class="lr-card__soon">Case study coming soon</p></div>
-</div>
-<div class="lr-card lr-card--soon lr-reveal" style="--i:3" data-tags="health">
+  <div class="lr-card__body"><h3 class="lr-card__title">Matcha tutorial game</h3><p class="lr-card__summary">A game that teaches you to whisk matcha and doubles as a fine motor skills test.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--butter">In progress</span><span class="lr-tag">Just for fun</span><span class="lr-tag">Health</span></div></div>
+</a>
+<a class="lr-card lr-reveal" style="--i:3" data-tags="health" href="coming-soon.html">
   <div class="lr-card__media ph" style="background:var(--mist)">
     <svg style="left:0;top:0;width:100%;height:100%" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect x="0" y="64" width="160" height="26" style="fill:var(--sky)"/><path transform="translate(75 59) rotate(-74)" d="M0,0 C10,-9.5 10,-24.5 0,-34 C-10,-24.5 -10,-9.5 0,0 Z" style="fill:var(--butter)"/><path transform="translate(85 59) rotate(74)" d="M0,0 C10,-9.5 10,-24.5 0,-34 C-10,-24.5 -10,-9.5 0,0 Z" style="fill:var(--butter)"/><path transform="translate(80 56) rotate(0)" d="M0,0 C11,-11.2 11,-28.8 0,-40 C-11,-28.8 -11,-11.2 0,0 Z" style="fill:var(--butter)"/></svg>
   </div>
-  <div class="lr-card__body"><h3 class="lr-card__title">Lotus Guardian</h3><p class="lr-card__summary">A chronic pain relief app designed and built with a small founding team.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sprout">Health app</span><span class="lr-tag">Chronic pain</span></div><p class="lr-card__soon">Case study coming soon</p></div>
-</div>
+  <div class="lr-card__body"><h3 class="lr-card__title">Lotus Guardian</h3><p class="lr-card__summary">A chronic pain relief app designed and built with a small founding team.</p><div class="lr-card__tags"><span class="lr-tag lr-tag--sprout">Health app</span><span class="lr-tag">Chronic pain</span></div></div>
+</a>
 </div>
   </section>
   <footer class="foot">

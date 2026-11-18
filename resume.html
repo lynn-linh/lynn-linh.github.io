@@ -53,14 +53,6 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-sans
 .lr-card__summary { margin: 0; font: 400 15px/24px var(--font-mono); color: var(--ink-muted); }
 .lr-card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
 .lr-card:hover .lr-card__title { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 6px; text-decoration-thickness: 2px; }
-/* a card with no case study yet: a <div>, not a link; no hover underline; a "Case study coming soon" line under the tags */
-.lr-card--soon { cursor: default; }
-.lr-card--soon:hover .lr-card__title { text-decoration: none; }
-.lr-card__soon {
-  display: flex; align-items: center; gap: 8px; margin: var(--space-2) 0 0; padding-top: var(--space-2);
-  border-top: 1px solid var(--line); font: 500 12px/16px var(--font-mono); color: var(--ink-muted);
-}
-.lr-card__soon::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--butter); outline: 1px solid var(--ink); }
 
 /* AvatarIntro — the pixel avatar with a game dialogue box */
 .lr-intro { display: flex; align-items: flex-end; gap: var(--space-6); flex-wrap: wrap; }
@@ -584,7 +576,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
 </defs></svg>
 <div class="pg rs">
   <header class="nav">
-    <a class="brand" href="index.html"><img src="lynn-forest.webp" alt=""><b>Lynn Racelo<i>.</i></b></a>
+    <a class="brand" href="index.html"><img src="lynn-sprout.png" alt=""><b>Lynn Racelo<i>.</i></b></a>
     <nav class="links"><a href="index.html#projects">projects</a><a href="index.html#about">about</a><a href="resume.html" aria-current="page">résumé</a><span class="lr-tag lr-tag--status">Let's work together</span><button class="lr-theme-toggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="lr-theme-toggle__night" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-crescent"/></svg><svg class="lr-theme-toggle__day" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg></button></nav>
   </header>
   <main><div class="lr-dialogue" role="status">Coming soon!<span class="lr-dialogue__next" aria-hidden="true"></span></div></main>
