@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap");
+:root{--paper:#f6f1e7;--paper-deep:#ece4d4;--line:#d8cfbf;--ink:#1f1a17;--ink-muted:#5c534c;--moss:#7cb357;--moss-ink:#3f7130;--forest-light:#2a5e43;--forest:#173f2e;--forest-deep:#11301f;--sprout:#b5dc84;--mist:#e3f2d6;--persimmon:#d9542b;--persimmon-ink:#a83c18;--sky:#74c3d9;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #1f1a17;--space-2:8px;--space-4:16px;--space-6:24px;--space-12:48px;--radius-sm:4px;--radius-md:12px;--radius-pill:999px;--font-display:"Fraunces", Georgia, serif;--font-sans:"Instrument Sans", system-ui, sans-serif;--font-mono:"JetBrains Mono", ui-monospace, monospace;}:root[data-theme="dark"]{--paper:#101d17;--paper-deep:#17281f;--line:#2a3f33;--ink:#f1ecdf;--ink-muted:#a9bba9;--moss:#7fbf6a;--moss-ink:#9fd18a;--forest-light:#2f6248;--forest:#1d4232;--forest-deep:#152f23;--sprout:#a9d680;--mist:#1f3a2c;--persimmon:#ef7046;--persimmon-ink:#f59473;--sky:#7ccbe0;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #050a07;color-scheme:dark;}
+
+/* Lynn Racelo — component styles. Every value is a token from tokens.json. */
+
+body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+
+/* Button — mono labels, pixel press */
+.lr-btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: 10px 18px; border-radius: var(--radius-sm); border: 2px solid transparent;
+  font: 600 14px/20px var(--font-mono); text-decoration: none; cursor: pointer;
+  transition: transform .08s steps(2), box-shadow .08s steps(2);
+}
+.lr-btn:focus-visible { outline: 2px solid var(--persimmon-ink); outline-offset: 3px; }
+.lr-btn--primary { background: var(--moss); color: var(--on-moss); border-color: var(--ink); box-shadow: var(--shadow-pixel); }
+.lr-btn--primary:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.lr-btn--primary:active { transform: translate(3px, 3px); box-shadow: none; }
+.lr-btn__spark { width: 14px; height: 14px; fill: var(--butter); shape-rendering: crispEdges; }
+.lr-btn--secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.lr-btn--secondary:hover { background: var(--mist); }
+.lr-btn--link { padding: 10px 0; color: var(--persimmon-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.lr-btn--link:hover { text-decoration-thickness: 2px; }
+@media (prefers-reduced-motion: reduce) { .lr-btn { transition: none; } }
+
+/* Tag */
+.lr-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px var(--space-2); border-radius: var(--radius-sm);
+  font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); border: 1px solid var(--line);
+}
+.lr-tag--sprout { background: var(--sprout); color: var(--on-accent); border-color: transparent; }
+.lr-tag--sky { background: var(--sky); color: var(--on-accent); border-color: transparent; }
+.lr-tag--butter { background: var(--butter); color: var(--on-accent); border-color: transparent; }
+.lr-tag--status { border-radius: var(--radius-pill); padding: 4px 12px; }
+.lr-tag--status::before { content: ""; width: 8px; height: 8px; background: var(--sprout); }
+
+/* ProjectCard */
+.lr-card {
+  display: flex; flex-direction: column; background: var(--paper);
+  border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden;
+  color: inherit; text-decoration: none;
+}
+.lr-card__media { aspect-ratio: 16 / 9; background: var(--mist); display: block; width: 100%; object-fit: cover; }
+.lr-card__body { display: flex; flex-direction: column; flex: 1; gap: var(--space-2); padding: var(--space-6); }
+.lr-card__eyebrow { font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+.lr-card__title { margin: 0; font: 500 28px/34px var(--font-display); color: var(--ink); }
+.lr-card__summary { margin: 0; font: 400 15px/24px var(--font-mono); color: var(--ink-muted); }
+.lr-card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
+.lr-card:hover .lr-card__title { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+/* a card with no case study yet: a <div>, not a link; no hover underline; a "Case study coming soon" line under the tags */
+.lr-card--soon { cursor: default; }
+.lr-card--soon:hover .lr-card__title { text-decoration: none; }
+.lr-card__soon {
+  display: flex; align-items: center; gap: 8px; margin: var(--space-2) 0 0; padding-top: var(--space-2);
+  border-top: 1px solid var(--line); font: 500 12px/16px var(--font-mono); color: var(--ink-muted);
+}
+.lr-card__soon::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--butter); outline: 1px solid var(--ink); }
+
+/* AvatarIntro — the pixel avatar with a game dialogue box */
+.lr-intro { display: flex; align-items: flex-end; gap: var(--space-6); flex-wrap: wrap; }
+.lr-intro__frame {
+  width: 200px; aspect-ratio: 1; flex: none; overflow: hidden;
+  border: 2px solid var(--ink); border-radius: var(--radius-sm); box-shadow: var(--shadow-pixel);
+}
+.lr-intro__frame img { display: block; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.lr-dialogue {
+  position: relative; max-width: 360px; padding: var(--space-4);
+  background: var(--paper); color: var(--ink);
+  border: 2px solid var(--ink); border-radius: var(--radius-sm); box-shadow: var(--shadow-pixel);
+  font: 400 15px/24px var(--font-mono);
+}
+.lr-dialogue__name { display: block; margin-bottom: 4px; font: 600 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--moss-ink); }
+.lr-dialogue__next { display: inline-block; width: 8px; height: 8px; margin-left: 6px; background: var(--persimmon); animation: lr-blink 1s steps(1) infinite; }
+@keyframes lr-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .lr-dialogue__next { animation: none; } }
+
+/* Pixel motifs — <use> fills with one of these; --px-second colors the dots and stems */
+.lr-px { shape-rendering: crispEdges; }
+.lr-m-butter { fill: var(--butter); }
+.lr-m-sky { fill: var(--sky); }
+.lr-m-persimmon { fill: var(--persimmon); }
+.lr-m-sprout { fill: var(--sprout); }
+.lr-m-moss { fill: var(--moss); }
+.lr-m-light { fill: var(--on-forest); }
+.lr-m-second { fill: var(--px-second, var(--on-forest)); }
+.lr-forest {
+  /* stepped, dithered gradient: six hard bands from forest-light (top) to forest-deep (bottom), a 4px checker row at each step */
+  background:
+    conic-gradient(color-mix(in oklab, var(--forest-light), var(--forest-deep) 0%) 25%, transparent 0 50%, color-mix(in oklab, var(--forest-light), var(--forest-deep) 0%) 0 75%, transparent 0) 0 16.67% / 8px 8px repeat-x,
+    conic-gradient(color-mix(in oklab, var(--forest-light), var(--forest-deep) 20%) 25%, transparent 0 50%, color-mix(in oklab, var(--forest-light), var(--forest-deep) 20%) 0 75%, transparent 0) 0 33.33% / 8px 8px repeat-x,
+    conic-gradient(color-mix(in oklab, var(--forest-light), var(--forest-deep) 40%) 25%, transparent 0 50%, color-mix(in oklab, var(--forest-light), var(--forest-deep) 40%) 0 75%, transparent 0) 0 50.00% / 8px 8px repeat-x,
+    conic-gradient(color-mix(in oklab, var(--forest-light), var(--forest-deep) 60%) 25%, transparent 0 50%, color-mix(in oklab, var(--forest-light), var(--forest-deep) 60%) 0 75%, transparent 0) 0 66.67% / 8px 8px repeat-x,
+    conic-gradient(color-mix(in oklab, var(--forest-light), var(--forest-deep) 80%) 25%, transparent 0 50%, color-mix(in oklab, var(--forest-light), var(--forest-deep) 80%) 0 75%, transparent 0) 0 83.33% / 8px 8px repeat-x,
+    linear-gradient(to bottom,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 0%) 0.00% 16.67%,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 20%) 16.67% 33.33%,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 40%) 33.33% 50.00%,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 60%) 50.00% 66.67%,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 80%) 66.67% 83.33%,
+      color-mix(in oklab, var(--forest-light), var(--forest-deep) 100%) 83.33% 100.00%);
+  color: var(--on-forest); border: 1px solid var(--line); border-radius: var(--radius-md);
+}
+
+/* CursorTrail — pixel sparkles that follow the pointer, three-frame sprite, stepped not eased */
+.lr-trail { position: fixed; inset: 0; pointer-events: none; z-index: 2147483000; overflow: hidden; }
+.lr-trail--local { position: absolute; }
+.lr-spark {
+  position: absolute; left: 0; top: 0; width: 21px; height: 21px; margin: -10px 0 0 -10px;
+  shape-rendering: crispEdges; fill: var(--butter);
+  --o: var(--on-accent);
+  filter: drop-shadow(1px 0 0 var(--o)) drop-shadow(-1px 0 0 var(--o)) drop-shadow(0 1px 0 var(--o)) drop-shadow(0 -1px 0 var(--o));
+  animation: lr-spark-fall .48s steps(4) forwards;
+}
+.lr-spark--sky { fill: var(--sky); }
+.lr-spark--small { width: 14px; height: 14px; margin: -7px 0 0 -7px; }
+.lr-spark .f1 { animation: lr-f1 .48s steps(1) forwards; }
+.lr-spark .f2 { opacity: 0; animation: lr-f2 .48s steps(1) forwards; }
+.lr-spark .f3 { opacity: 0; animation: lr-f3 .48s steps(1) forwards; }
+@keyframes lr-spark-fall { to { translate: 0 8px; } }
+@keyframes lr-f1 { 0% { opacity: 1; } 34% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes lr-f2 { 0% { opacity: 0; } 34% { opacity: 1; } 67% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes lr-f3 { 0% { opacity: 0; } 67% { opacity: 1; } 100% { opacity: 0; } }
+/* trail sprite variants */
+.lr-spark .o { fill: var(--on-forest); }
+.lr-spark--twinkle { width: 27px; height: 27px; margin: -13px 0 0 -13px; }
+.lr-spark--twinkle.lr-spark--small { width: 18px; height: 18px; margin: -9px 0 0 -9px; }
+/* leaves: two rounded shapes, oak and round; the oak is taller than wide, and small ones tilt the other way for variety */
+/* the original pointed leaf, used by the leaves + mushrooms trail */
+.lr-spark--leaf { fill: var(--moss); animation: lr-leaf-fall .9s steps(2) forwards; }
+.lr-spark--leaf .o { fill: var(--sprout); }
+.lr-spark--leaf.lr-spark--sprout { fill: var(--sprout); }
+.lr-spark--leaf.lr-spark--sprout .o { fill: var(--moss); }
+.lr-spark--leaf.lr-spark--butter { fill: var(--butter); }
+.lr-spark--leaf.lr-spark--butter .o { fill: var(--persimmon); }
+.lr-spark--leaf .f1, .lr-spark--leaf .f2, .lr-spark--leaf .f3 { animation-duration: .9s; }
+/* oak and oval leaves move exactly like the petals: the same .9s fall, frames and spacing; big and small ones keep a tilt */
+:is(.lr-spark--oak, .lr-spark--round) { fill: var(--moss); animation: lr-leaf-fall .9s steps(2) forwards; --lr-tilt: -18deg; }
+:is(.lr-spark--oak, .lr-spark--round).lr-spark--small { --lr-tilt: 22deg; }
+.lr-spark--oak { width: 21px; height: 26px; margin: -13px 0 0 -10px; }
+.lr-spark--oak.lr-spark--small { width: 14px; height: 17px; margin: -8px 0 0 -7px; }
+:is(.lr-spark--oak, .lr-spark--round) .o { fill: var(--sprout); }
+:is(.lr-spark--oak, .lr-spark--round).lr-spark--sprout { fill: var(--sprout); }
+:is(.lr-spark--oak, .lr-spark--round).lr-spark--sprout .o { fill: var(--moss); }
+:is(.lr-spark--oak, .lr-spark--round).lr-spark--butter { fill: var(--butter); }
+:is(.lr-spark--oak, .lr-spark--round).lr-spark--butter .o { fill: var(--persimmon); }
+.lr-spark--petal { width: 27px; height: 27px; margin: -13px 0 0 -13px; fill: var(--moss); animation: lr-leaf-fall .9s steps(2) forwards; }
+.lr-spark--petal.lr-spark--small { width: 18px; height: 18px; margin: -9px 0 0 -9px; }
+.lr-spark--petal .o { fill: var(--sprout); }
+.lr-spark--petal.lr-spark--sprout { fill: var(--sprout); }
+.lr-spark--petal.lr-spark--sprout .o { fill: var(--moss); }
+.lr-spark--petal.lr-spark--butter { fill: var(--butter); }
+.lr-spark--petal.lr-spark--butter .o { fill: var(--on-forest); }
+.lr-spark--petal .f1, .lr-spark--petal .f2, .lr-spark--petal .f3 { animation-duration: .9s; }
+.lr-spark--mushroom { width: 24px; height: 21px; margin: -10px 0 0 -12px; fill: var(--persimmon); animation: lr-mush-pop .7s steps(1) forwards; }
+.lr-spark--mushroom.lr-spark--sky { fill: var(--sky); }
+.lr-spark--mushroom.lr-spark--small { width: 16px; height: 14px; margin: -7px 0 0 -8px; }
+:is(.lr-spark--oak, .lr-spark--round) :is(.f1, .f2, .f3) { animation-duration: .9s; }
+.lr-spark--mushroom .f1, .lr-spark--mushroom .f2, .lr-spark--mushroom .f3 { animation-duration: .7s; }
+@keyframes lr-leaf-fall { 0% { translate: 0 0; } 34% { translate: 6px 10px; } 67% { translate: -4px 20px; } 100% { translate: 3px 30px; } }
+@keyframes lr-mush-pop { 0% { translate: 0 0; } 34% { translate: 0 -3px; } 67% { translate: 0 0; } 100% { translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .lr-trail { display: none; } }
+/* trail toggle: a small switch in the nav; hidden when the system already asks for reduced motion (the trail never runs then) */
+.lr-trail-toggle {
+  display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px; cursor: pointer;
+  font: 500 14px/20px var(--font-mono); color: inherit; background: transparent;
+  border: 2px solid var(--line); border-radius: var(--radius-sm);
+}
+.lr-trail-toggle::after { content: "off"; min-width: 2.2em; padding: 0 4px; border-radius: 2px; font-size: 12px; text-align: center; background: transparent; outline: 1px solid currentColor; }
+.lr-trail-toggle[aria-pressed="true"]::after { content: "on"; background: var(--sprout); color: var(--on-accent); outline-color: var(--ink); }
+.lr-trail-toggle:hover { border-color: currentColor; }
+.lr-trail-toggle:focus-visible { outline: 2px solid var(--persimmon-ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .lr-trail-toggle { display: none; } }
+
+/* Reveal: boxes grow up from the ground line as they scroll in; headings wipe left to right. Each element reveals once.
+   The hidden starting state only applies under html.lr-motion, which bundle.js adds (not under reduced motion or ?static),
+   so content stays visible without JS and in html.to.design captures. */
+html.lr-motion .lr-reveal {
+  clip-path: inset(100% 0 0 0 round 12px); translate: 0 18px;
+  transition: clip-path .8s cubic-bezier(.2,.7,.2,1) calc(var(--i, 0) * 110ms), translate .8s cubic-bezier(.2,.7,.2,1) calc(var(--i, 0) * 110ms);
+}
+html.lr-motion .lr-reveal.on { clip-path: inset(0 0 0 0 round 12px); translate: 0 0; }
+html.lr-motion .lr-reveal--wipe { clip-path: inset(0 100% 0 0); translate: 0 0; }
+html.lr-motion .lr-reveal--wipe.on { clip-path: inset(0); }
+/* once the reveal ends, drop the clip so hard shadows (shadow-pixel, shadow-soft) aren't cut off */
+html.lr-motion .lr-reveal.done { clip-path: none; }
+@media (prefers-reduced-motion: reduce) { html.lr-motion .lr-reveal { clip-path: none; translate: none; transition: none; } }
+
+/* PageTransition "Rise": cross-document View Transitions between the homepage and the case study. Only the root animates
+   (no view-transition-names, no morphing). bundle.js tags each navigation "forward" (homepage → case study) or "back"
+   (case study → homepage) on pagereveal and skips the transition for any other pair of pages and under ?static.
+   Browsers without cross-document view transitions just load the page. None of this runs under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition { background: var(--paper); }
+  ::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }
+  /* forward: the case study slides up over the homepage like a sheet, out of the ground line, same as the scroll reveal */
+  html:active-view-transition-type(forward)::view-transition-old(root) { animation: lr-vt-sink 640ms cubic-bezier(.2,.7,.2,1) both; }
+  html:active-view-transition-type(forward)::view-transition-new(root) { animation: lr-vt-sheet-up 640ms cubic-bezier(.2,.7,.2,1) both; }
+  /* back: the case study, on top, lowers away and the homepage comes up underneath */
+  html:active-view-transition-type(back)::view-transition-old(root) { z-index: 1; animation: lr-vt-lower 520ms cubic-bezier(.6,0,.8,.4) both; }
+  html:active-view-transition-type(back)::view-transition-new(root) { z-index: 0; animation: lr-vt-surface 560ms ease-out both; }
+  /* after a forward arrival, the headline and its dialog box rise in (mark them .lr-rise, delay with --rise-delay) */
+  html.lr-arrived .lr-rise { animation: lr-rise-in 560ms ease-out var(--rise-delay, 0ms) both; }
+}
+@keyframes lr-vt-sink { from { opacity: 1; transform: translateY(0); } to { opacity: .55; transform: translateY(-24px); } }
+@keyframes lr-vt-sheet-up { from { transform: translateY(64px); clip-path: inset(100% 0 0 0 round 24px 24px 0 0); } to { transform: none; clip-path: inset(0 0 0 0 round 0 0 0 0); } }
+@keyframes lr-vt-lower { from { clip-path: inset(0 0 0 0); opacity: 1; } to { clip-path: inset(0 0 100% 0); opacity: .6; } }
+@keyframes lr-vt-surface { from { opacity: .55; transform: translateY(-24px); } to { opacity: 1; transform: none; } }
+@keyframes lr-rise-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Theme toggle: a small pixel icon button at the end of the nav. A crescent by day (go to Night), a sparkle by night (go to Day). */
+.lr-theme-toggle {
+  display: inline-grid; place-items: center; width: 32px; height: 32px; padding: 0; cursor: pointer;
+  color: var(--ink); background: transparent; border: 2px solid var(--line); border-radius: var(--radius-sm);
+}
+.lr-theme-toggle:hover { border-color: var(--ink); }
+.lr-theme-toggle:focus-visible { outline: 2px solid var(--persimmon-ink); outline-offset: 2px; }
+.lr-theme-toggle svg { display: block; width: 14px; height: 14px; shape-rendering: crispEdges; fill: currentColor; }
+.lr-theme-toggle .lr-theme-toggle__day { display: none; fill: var(--butter); }
+[data-theme="dark"] .lr-theme-toggle .lr-theme-toggle__night { display: none; }
+[data-theme="dark"] .lr-theme-toggle .lr-theme-toggle__day { display: block; }
+
+/* FilterTabs — mono category tabs; the active one is a pressed pixel button */
+.lr-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.lr-tab {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  font: 500 14px/20px var(--font-mono); color: var(--ink); background: transparent; cursor: pointer;
+  border: 2px solid var(--line); border-radius: var(--radius-sm);
+}
+.lr-tab:hover { border-color: var(--ink); }
+.lr-tab:focus-visible { outline: 2px solid var(--persimmon-ink); outline-offset: 2px; }
+.lr-tab[aria-pressed="true"] { background: var(--moss); color: var(--on-moss); border-color: var(--ink); box-shadow: var(--shadow-pixel); }
+.lr-tab__count { font-size: 12px; color: inherit; opacity: .75; }
+[data-lr-hidden] { display: none !important; }
+
+/* FeaturedProject — a wide spotlight card for the one project you're on now */
+.lr-feature {
+  display: grid; grid-template-columns: 7fr 5fr; overflow: hidden; color: inherit; text-decoration: none;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: var(--radius-md); box-shadow: var(--shadow-pixel);
+}
+.lr-feature__media { position: relative; min-height: 360px; border: 0; border-right: 2px solid var(--ink); border-radius: 0; }
+.lr-feature .ph { overflow: hidden; }
+.lr-feature .ph i { position: absolute; display: block; }
+.lr-feature .ph svg, .lr-card .ph svg { position: absolute; shape-rendering: crispEdges; }
+.lr-card .ph { position: relative; overflow: hidden; }
+.lr-card .ph i { position: absolute; display: block; border-radius: var(--radius-md); }
+.lr-feature__body { display: flex; flex-direction: column; gap: var(--space-4); padding: 40px; }
+.lr-feature__eyebrow { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+.lr-feature__title { margin: 0; font: 500 40px/46px var(--font-display); letter-spacing: -.015em; color: var(--ink); }
+.lr-feature__summary { margin: 0; font: 400 16px/26px var(--font-sans); color: var(--ink); }
+.lr-feature__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font: 400 14px/22px var(--font-mono); color: var(--ink-muted); }
+.lr-feature__list li { display: flex; gap: 10px; }
+.lr-feature__list li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 7px; background: var(--moss); outline: 1px solid var(--ink); }
+.lr-feature:hover .lr-feature__title { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+</style>
+<script>
+/* @ds-bundle: {"format":4,"namespace":"LynnRacelo","components":[{"name":"AvatarIntro"},{"name":"Button"},{"name":"Tag"},{"name":"ProjectCard"},{"name":"Motifs"},{"name":"CursorTrail"},{"name":"FilterTabs"},{"name":"FeaturedProject"},{"name":"Reveal"},{"name":"PageTransition"},{"name":"Theme"}]} */
+// Lynn Racelo is CSS-first: components are bundle.css classes. This exposes the class names, the pixel motif maps
+// and the behaviors, CursorTrail, FilterTabs, Reveal, PageTransition and Theme.
+(function () {
+  var SVGNS = "http://www.w3.org/2000/svg";
+  // Trail sprites: three frames each on one pixel grid. "#" = main fill, "o" = second fill (class "o").
+  var SPRITES = {
+    // the original: reads a little like a plus sign
+    sparkle: [
+      ["...#...", "...#...", "..###..", "#######", "..###..", "...#...", "...#..."],
+      [".......", "...#...", "...#...", ".#####.", "...#...", "...#...", "......."],
+      [".......", ".......", "...#...", "..###..", "...#...", ".......", "......."]
+    ],
+    // a thinner four-point star with diagonal glints and a bright center
+    twinkle: [
+      ["....#....", "....#....", "..#.#.#..", "...###...", "####o####", "...###...", "..#.#.#..", "....#....", "....#...."],
+      [".........", "....#....", "....#....", "...###...", ".###o###.", "...###...", "....#....", "....#....", "........."],
+      [".........", ".........", "..#...#..", "....#....", "...#o#...", "....#....", "..#...#..", ".........", "........."]
+    ],
+    // the original pointed leaf that flips as it falls, then shrinks (kept for the leaves + mushrooms trail)
+    leaf: [
+      [".....##", "...####", "..#####", ".####o.", ".##o##.", "#o.....", "#......"],
+      ["##.....", "####...", "#####..", ".o####.", ".##o##.", ".....o#", "......#"],
+      [".......", "....##.", "..####.", "..#o#..", ".#.....", ".......", "......."]
+    ],
+    // a white-oak leaf: rounded lobes, a center vein and a stem. Falls like a petal (no side-on frame), then shrinks.
+    oak: [
+      ["...###...", "..#####..", ".###o###.", ".###o###.", "...#o#...", "####o####", ".###o###.", "...#o#...", "..##o##..", "...###...", "....#...."],
+      ["...###...", "..#####..", ".###o###.", ".###o###.", "...#o#...", "####o####", ".###o###.", "...#o#...", "..##o##..", "...###...", "....#...."],
+      [".........", ".........", "....#....", "...###...", "..##o##..", "...#o#...", "..##o##..", "...###...", "....#....", ".........", "........."]
+    ],
+    // a soft oval leaf at an angle, no sharp tip. Rocks to the other diagonal as it falls, like a petal, then shrinks.
+    round: [
+      ["....###.", "..#####.", ".###o###", ".##o####", ".#o####.", "..####..", ".#......", "#......."],
+      [".###....", ".#####..", "###o###.", "####o##.", ".####o#.", "..####..", "......#.", ".......#"],
+      ["........", "........", "....##..", "...###..", "..#o#...", "..##....", ".#......", "........"]
+    ],
+    // an almond petal, like the lotus, always at an angle (mirrored 2026-11-18): leaning one way, rocking to the other as it falls, then small
+    petal: [
+      [".......#.", ".....###.", "...####..", "..##o##..", "..#o##...", ".#o##....", ".###.....", ".#.......", "........."],
+      [".#.......", ".###.....", "..####...", "..##o##..", "...##o#..", "....##o#.", ".....###.", ".......#.", "........."],
+      [".........", ".........", "..#......", "..##.....", "...o#....", "....##...", ".....#...", ".........", "........."]
+    ],
+    // a mushroom that sprouts, then stands
+    mushroom: [
+      ["........", "........", "........", "..####..", ".######.", "..oooo..", "..oooo.."],
+      ["..####..", ".#o####.", "#####o##", "#o######", "..oooo..", "..oooo..", "..oooo.."],
+      ["..####..", ".#o####.", "#####o##", "#o######", "..oooo..", "..oooo..", "..oooo.."]
+    ]
+  };
+  var FRAMES = SPRITES.sparkle;
+  // Trail kinds: the repeating pattern of [sprite, extra class] each kind drops
+  var KINDS = {
+    sparkle: [["sparkle", ""], ["sparkle", ""], ["sparkle", ""], ["sparkle", ""], ["sparkle", "lr-spark--sky"]],
+    twinkle: [["twinkle", ""], ["twinkle", ""], ["twinkle", ""], ["twinkle", "lr-spark--sky"]],
+    leaves: [["oak", ""], ["round", "lr-spark--sprout"], ["oak", "lr-spark--sprout"], ["round", ""], ["oak", "lr-spark--butter"]],
+    petals: [["petal", ""], ["petal", "lr-spark--sprout"], ["petal", ""], ["petal", "lr-spark--butter"], ["petal", "lr-spark--sprout"]],
+    forest: [["leaf", ""], ["leaf", "lr-spark--sprout"], ["mushroom", ""], ["leaf", "lr-spark--sprout"], ["leaf", ""], ["mushroom", "lr-spark--sky"]]
+  };
+
+  function sprite(name) {
+    var frames = SPRITES[name] || SPRITES.sparkle;
+    var svg = document.createElementNS(SVGNS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + frames[0][0].length + " " + frames[0].length);
+    svg.setAttribute("aria-hidden", "true");
+    frames.forEach(function (rows, i) {
+      var g = document.createElementNS(SVGNS, "g");
+      g.setAttribute("class", "f" + (i + 1));
+      rows.forEach(function (row, y) {
+        for (var x = 0; x < row.length; x++) if (row[x] !== ".") {
+          var r = document.createElementNS(SVGNS, "rect");
+          r.setAttribute("x", x); r.setAttribute("y", y); r.setAttribute("width", 1); r.setAttribute("height", 1);
+          if (row[x] === "o") r.setAttribute("class", "o");
+          g.appendChild(r);
+        }
+      });
+      svg.appendChild(g);
+    });
+    return svg;
+  }
+
+  // start(target?, options?) -> stop(). target: an element (trail stays inside it; give it position:relative)
+  // or nothing for the whole page. options: { kind: "sparkle" | "twinkle" | "leaves" | "petals" | "forest" ("sparkle"),
+  // spacing: px between sprites (24), max: live sprites (20) }.
+  // Zones: put data-lr-trail="<kind>" on any element and the trail switches to that kind while the pointer is over it.
+  // Off switch: a visitor can turn the trail off with a toggle (bindToggle). The choice is remembered in this browser.
+  var OFF_KEY = "lr-trail-off", layers = [], toggles = [];
+  var off = (function () { try { return localStorage.getItem(OFF_KEY) === "1"; } catch (e) { return false; } })();
+  function setOff(v) {
+    off = !!v;
+    try { if (off) localStorage.setItem(OFF_KEY, "1"); else localStorage.removeItem(OFF_KEY); } catch (e) {}
+    if (off) layers.forEach(function (l) { while (l.firstChild) l.removeChild(l.firstChild); });
+    toggles.forEach(paint);
+  }
+  function paint(btn) { btn.setAttribute("aria-pressed", off ? "false" : "true"); }
+  // bindToggle(button): a <button class="lr-trail-toggle"> that switches the trail on and off.
+  function bindToggle(btn) {
+    if (!btn) return;
+    toggles.push(btn); paint(btn);
+    btn.addEventListener("click", function () { setOff(!off); });
+  }
+
+  function start(target, options) {
+    var opts = options || {};
+    var pattern = KINDS[opts.kind] || KINDS.sparkle;
+    var spacing = opts.spacing || 24, max = opts.max || 20;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return function () {};
+    var local = target && target !== document && target !== document.body;
+    var host = local ? target : document.body;
+    var layer = document.createElement("div");
+    layer.className = "lr-trail" + (local ? " lr-trail--local" : "");
+    host.appendChild(layer); layers.push(layer);
+    var last = null, count = 0;
+
+    function onMove(e) {
+      if (off) return;
+      if (e.pointerType && e.pointerType !== "mouse" && e.pointerType !== "pen") return;
+      var x = e.clientX, y = e.clientY;
+      if (local) { var b = host.getBoundingClientRect(); x -= b.left; y -= b.top; }
+      if (last && Math.abs(x - last[0]) + Math.abs(y - last[1]) < spacing) return;
+      last = [x, y];
+      if (layer.childElementCount >= max) layer.removeChild(layer.firstChild);
+      // a zone can switch the style: any ancestor with data-lr-trail="twinkle" (or another kind) wins over the default
+      var zone = e.target && e.target.closest ? e.target.closest("[data-lr-trail]") : null;
+      var pat = (zone && KINDS[zone.getAttribute("data-lr-trail")]) || pattern;
+      var pick = pat[count % pat.length];
+      var s = sprite(pick[0]);
+      count++;
+      s.setAttribute("class", "lr-spark lr-spark--" + pick[0] + (pick[1] ? " " + pick[1] : "") + (count % 2 ? " lr-spark--small" : ""));
+      // snap to a 3px grid so sprites land on whole pixels
+      // a sprite's tilt (--lr-tilt, set in bundle.css) is applied after it's placed, so it turns in place and stays on the cursor
+      s.style.transform = "translate(" + Math.round(x / 3) * 3 + "px," + Math.round(y / 3) * 3 + "px) rotate(var(--lr-tilt, 0deg))";
+      s.addEventListener("animationend", function (ev) { if (ev.target === s && s.parentNode) s.parentNode.removeChild(s); });
+      layer.appendChild(s);
+    }
+    var src = local ? host : window;
+    src.addEventListener("pointermove", onMove, { passive: true });
+    return function stop() { src.removeEventListener("pointermove", onMove); if (layer.parentNode) layer.parentNode.removeChild(layer); };
+  }
+
+
+  // FilterTabs.bind(tabsEl, itemsEl): tabs are <button class="lr-tab" data-filter="research">, "all" shows everything;
+  // items carry data-tags="research health". Counts fill any .lr-tab__count.
+  function bindTabs(tabs, items) {
+    var buttons = [].slice.call(tabs.querySelectorAll(".lr-tab"));
+    var cards = [].slice.call(items.children);
+    function has(card, f) { return f === "all" || (" " + (card.getAttribute("data-tags") || "") + " ").indexOf(" " + f + " ") > -1; }
+    buttons.forEach(function (b) {
+      var c = b.querySelector(".lr-tab__count");
+      if (c) c.textContent = cards.filter(function (card) { return has(card, b.getAttribute("data-filter")); }).length;
+      b.addEventListener("click", function () {
+        var f = b.getAttribute("data-filter");
+        buttons.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        cards.forEach(function (card) { if (has(card, f)) card.removeAttribute("data-lr-hidden"); else card.setAttribute("data-lr-hidden", ""); });
+      });
+    });
+  }
+
+  // PageTransition "Rise": the cross-document view transition between the homepage and the case study (styles in
+  // bundle.css, which opts in with @view-transition under prefers-reduced-motion: no-preference). On pagereveal it reads
+  // where the visitor came from and tags the transition "forward" (index.html → case-study.html) or "back" (the reverse);
+  // any other pair of pages, and ?static, skips it. after(fn) runs fn once the page has settled: right away when there's
+  // no transition (or the browser has none, like Firefox), else when viewTransition.finished resolves. Reveal waits on it.
+  var PageTransition = (function () {
+    var root = document.documentElement, done = false, queue = [];
+    var isStatic = /[?&]static(=|&|$)/.test(location.search);
+    var PAIRS = { "index.html>case-study.html": "forward", "case-study.html>index.html": "back" };
+    function settle() { if (done) return; done = true; queue.splice(0).forEach(function (fn) { fn(); }); }
+    function after(fn) { if (done) fn(); else queue.push(fn); }
+    function pageOf(url) {
+      try { var p = new URL(url, location.href).pathname; return p.slice(p.lastIndexOf("/") + 1) || "index.html"; } catch (e) { return ""; }
+    }
+    if ("onpagereveal" in window) {
+      addEventListener("pagereveal", function (e) {
+        var vt = e.viewTransition;
+        if (!vt) { settle(); return; }
+        if (vt.ready) vt.ready.catch(function () {});   // a skipped transition rejects ready; keep the console clean
+        var from = window.navigation && navigation.activation && navigation.activation.from;
+        var type = from && PAIRS[pageOf(from.url) + ">" + pageOf(location.href)];
+        if (!type || isStatic || !vt.types) { vt.skipTransition(); settle(); return; }
+        vt.types.add(type);
+        if (type === "forward") { root.classList.remove("lr-arrived"); void root.offsetWidth; root.classList.add("lr-arrived"); }
+        vt.finished.then(settle, settle);
+      });
+    } else settle();
+    return { after: after };
+  })();
+
+  // Reveal: elements with .lr-reveal (or .lr-reveal--wipe for headings) reveal once when their top passes 90% of the
+  // viewport height. Stagger siblings with style="--i:0", "--i:1", ... (110ms apart). Positions are checked on scroll
+  // (requestAnimationFrame-throttled), load and resize, not with IntersectionObserver: a fully clipped element never
+  // reports as intersecting in Chrome. No hidden state at all under reduced motion or with ?static in the URL.
+  var Reveal = (function () {
+    var root = document.documentElement;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var isStatic = /[?&]static(=|&|$)/.test(location.search);
+    var enabled = !reduce && !isStatic;
+    if (enabled) root.classList.add("lr-motion");
+    var pending = [], ticking = false;
+    function finish(el) { el.classList.add("done"); }
+    function show(el) {
+      el.classList.add("on");
+      var delay = (parseFloat(getComputedStyle(el).getPropertyValue("--i")) || 0) * 110;
+      var t = setTimeout(function () { finish(el); }, 800 + delay + 150);   // fallback if transitionend never fires
+      el.addEventListener("transitionend", function f(ev) {
+        if (ev.target !== el || ev.propertyName !== "clip-path") return;
+        clearTimeout(t); finish(el); el.removeEventListener("transitionend", f);
+      });
+    }
+    function check() {
+      var line = window.innerHeight * 0.9;
+      pending = pending.filter(function (el) {
+        if (el.getBoundingClientRect().top < line) { show(el); return false; }
+        return true;
+      });
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } }
+    function refresh() {
+      if (!enabled) return;
+      [].forEach.call(document.querySelectorAll(".lr-reveal"), function (el) {
+        if (!el.classList.contains("on") && pending.indexOf(el) < 0) pending.push(el);
+      });
+      requestAnimationFrame(check);
+    }
+    if (enabled) {
+      addEventListener("scroll", onScroll, { passive: true });
+      addEventListener("resize", onScroll);
+      addEventListener("load", check);
+      // start once a page transition (if any) has finished, so the two don't run on top of each other
+      PageTransition.after(function () {
+        if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", refresh); else refresh();
+      });
+    }
+    return { refresh: refresh, enabled: function () { return enabled; } };
+  })();
+
+  // Theme: Day (default) or Night (html[data-theme="dark"], the tokens' dark values). A visitor's choice from the
+  // toggle is remembered in this browser. ?night / ?theme=dark or ?day / ?theme=light in the URL force a theme for
+  // that load without saving it (the Day/Night comparison page and Figma captures use these).
+  var Theme = (function () {
+    var root = document.documentElement, KEY = "lr-theme", buttons = [];
+    var q = location.search;
+    var forced = /[?&](night|theme=dark)(=|&|$)/.test(q) ? "dark" : /[?&](day|theme=light)(=|&|$)/.test(q) ? "light" : null;
+    var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+    var current = forced || (saved === "dark" || saved === "light" ? saved : "light");
+    function paint(b) {
+      var night = current === "dark";
+      b.setAttribute("aria-pressed", night ? "true" : "false");
+      b.setAttribute("title", night ? "Switch to Day" : "Switch to Night");
+    }
+    function apply(t, first) {
+      current = t;
+      if (t === "dark") root.setAttribute("data-theme", "dark");
+      else if (!first) root.removeAttribute("data-theme");   // on first load, leave a host page's own theme alone
+      buttons.forEach(paint);
+    }
+    function set(t) { apply(t); if (!forced) { try { localStorage.setItem(KEY, t); } catch (e) {} } }
+    // bindToggle(button): a <button class="lr-theme-toggle"> that flips Day and Night.
+    function bindToggle(b) {
+      if (!b) return;
+      buttons.push(b); paint(b);
+      b.addEventListener("click", function () { set(current === "dark" ? "light" : "dark"); });
+    }
+    apply(current, true);
+    return { bindToggle: bindToggle, set: set, get: function () { return current; } };
+  })();
+
+  window.LynnRacelo = {
+    AvatarIntro: { root: "lr-intro", frame: "lr-intro__frame", dialogue: "lr-dialogue", name: "lr-dialogue__name", next: "lr-dialogue__next", avatar: "lynn-forest.webp" },
+    Button: { primary: "lr-btn lr-btn--primary", secondary: "lr-btn lr-btn--secondary", link: "lr-btn lr-btn--link" },
+    Tag: { base: "lr-tag", sprout: "lr-tag lr-tag--sprout", sky: "lr-tag lr-tag--sky", butter: "lr-tag lr-tag--butter", status: "lr-tag lr-tag--status" },
+    ProjectCard: { root: "lr-card", media: "lr-card__media", body: "lr-card__body", eyebrow: "lr-card__eyebrow", title: "lr-card__title", summary: "lr-card__summary", tags: "lr-card__tags" },
+    // Pixel maps: "#" = main fill, "o" = second fill (class lr-m-second, colored by --px-second)
+    Motifs: {"sparkle": ["...#...", "...#...", "..###..", "#######", "..###..", "...#...", "...#..."], "mushroom": ["..####..", ".#o####.", "#####o##", "#o######", "..oooo..", "..oooo..", "..oooo.."], "leaf": [".....##", "...####", "..#####", ".####o.", ".##o##.", "#o.....", "#......"], "crescent": ["..###..", ".##....", "##.....", "##.....", "##.....", ".##....", "..###.."]},
+    CursorTrail: { start: start, bindToggle: bindToggle, setOff: setOff, isOff: function () { return off; }, frames: FRAMES, sprites: SPRITES, kinds: KINDS },
+    FilterTabs: { root: "lr-tabs", tab: "lr-tab", bind: bindTabs },
+    Theme: { toggle: "lr-theme-toggle", bindToggle: Theme.bindToggle, set: Theme.set, get: Theme.get },
+    Reveal: { root: "lr-reveal", wipe: "lr-reveal--wipe", refresh: Reveal.refresh, enabled: Reveal.enabled },
+    PageTransition: { rise: "lr-rise", after: PageTransition.after },
+    FeaturedProject: { root: "lr-feature", media: "lr-feature__media", body: "lr-feature__body", eyebrow: "lr-feature__eyebrow", title: "lr-feature__title", summary: "lr-feature__summary", list: "lr-feature__list" }
+  };
+})();
+</script>
+<meta charset="utf-8">
+<title>Lynn Racelo · Résumé</title><meta name="viewport" content="width=1200">
+<meta name="description" content="Lynn Racelo's résumé is coming soon.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="160x160">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://lynn-linh.github.io/resume.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lynn Racelo">
+<meta property="og:title" content="Lynn Racelo · Résumé">
+<meta property="og:description" content="Lynn Racelo's résumé is coming soon.">
+<meta property="og:url" content="https://lynn-linh.github.io/resume.html">
+<meta property="og:image" content="https://lynn-linh.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pixel-art Lynn waving on a forest path, beside the words: Calm, cohesive, and a little enchanted.">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body { margin:0; }
+  .pg { width:1200px; margin:0 auto; background:var(--paper); color:var(--ink); }
+  .pg .nav { display:flex; align-items:center; justify-content:space-between; padding:20px 64px; border-bottom:1px solid var(--line); }
+  .pg .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .pg .brand img { width:40px; height:40px; object-fit:cover; image-rendering:pixelated; border:2px solid var(--ink); border-radius:var(--radius-sm); }
+  .pg .brand b { font:500 24px/1 var(--font-display); }
+  .pg .brand b i { font-style:normal; color:var(--persimmon); }
+  .pg .links { display:flex; align-items:center; gap:28px; font:500 14px/20px var(--font-mono); }
+  .pg .links a { color:var(--ink); text-decoration:none; }
+  /* a quiet, nearly blank page: one dialogue box in the middle */
+  .rs { display:flex; flex-direction:column; min-height:100vh; }
+  .rs main { flex:1; display:grid; place-items:center; padding:96px 64px; }
+  .rs .lr-dialogue { max-width:none; padding:24px 32px; font:400 20px/30px var(--font-mono); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="px-sparkle" viewBox="0 0 7 7"><rect x="3" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/></symbol>
+  <symbol id="px-crescent" viewBox="0 0 7 7"><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/></symbol>
+</defs></svg>
+<div class="pg rs">
+  <header class="nav">
+    <a class="brand" href="index.html"><img src="lynn-forest.webp" alt=""><b>Lynn Racelo<i>.</i></b></a>
+    <nav class="links"><a href="index.html#projects">projects</a><a href="index.html#about">about</a><a href="resume.html" aria-current="page">résumé</a><span class="lr-tag lr-tag--status">Let's work together</span><button class="lr-theme-toggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="lr-theme-toggle__night" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-crescent"/></svg><svg class="lr-theme-toggle__day" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg></button></nav>
+  </header>
+  <main><div class="lr-dialogue" role="status">Coming soon!<span class="lr-dialogue__next" aria-hidden="true"></span></div></main>
+</div>
+<script>
+  (function () {
+    var LR = window.LynnRacelo; if (!LR) return;
+    LR.CursorTrail.start(null, { kind: "leaves" });
+    LR.Theme.bindToggle(document.querySelector(".lr-theme-toggle"));
+  })();
+</script>
+</body>
+</html>
