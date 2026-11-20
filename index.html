@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap");
-:root{--paper:#f6f1e7;--paper-deep:#ece4d4;--line:#d8cfbf;--ink:#1f1a17;--ink-muted:#5c534c;--moss:#7cb357;--moss-ink:#3f7130;--forest-light:#2a5e43;--forest:#173f2e;--forest-deep:#11301f;--sprout:#b5dc84;--mist:#e3f2d6;--persimmon:#d9542b;--persimmon-ink:#a83c18;--sky:#74c3d9;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #1f1a17;--space-2:8px;--space-4:16px;--space-6:24px;--space-12:48px;--radius-sm:4px;--radius-md:12px;--radius-pill:999px;--font-display:"Fraunces", Georgia, serif;--font-sans:"Instrument Sans", system-ui, sans-serif;--font-mono:"JetBrains Mono", ui-monospace, monospace;}:root[data-theme="dark"]{--paper:#101d17;--paper-deep:#17281f;--line:#2a3f33;--ink:#f1ecdf;--ink-muted:#a9bba9;--moss:#7fbf6a;--moss-ink:#9fd18a;--forest-light:#2f6248;--forest:#1d4232;--forest-deep:#152f23;--sprout:#a9d680;--mist:#1f3a2c;--persimmon:#ef7046;--persimmon-ink:#f59473;--sky:#7ccbe0;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #050a07;color-scheme:dark;}
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap");
+:root{--paper:#f6f1e7;--paper-deep:#ece4d4;--line:#d8cfbf;--ink:#1f1a17;--ink-muted:#5c534c;--moss:#7cb357;--moss-ink:#3f7130;--forest-light:#2a5e43;--forest:#173f2e;--forest-deep:#11301f;--sprout:#b5dc84;--mist:#e3f2d6;--persimmon:#d9542b;--persimmon-ink:#a83c18;--sky:#74c3d9;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #1f1a17;--space-2:8px;--space-4:16px;--space-6:24px;--space-12:48px;--radius-sm:4px;--radius-md:12px;--radius-pill:999px;--font-display:"Cormorant Garamond", Georgia, serif;--font-sans:"Instrument Sans", system-ui, sans-serif;--font-mono:"JetBrains Mono", ui-monospace, monospace;}:root[data-theme="dark"]{--paper:#101d17;--paper-deep:#17281f;--line:#2a3f33;--ink:#f1ecdf;--ink-muted:#a9bba9;--moss:#7fbf6a;--moss-ink:#9fd18a;--forest-light:#2f6248;--forest:#1d4232;--forest-deep:#152f23;--sprout:#a9d680;--mist:#1f3a2c;--persimmon:#ef7046;--persimmon-ink:#f59473;--sky:#7ccbe0;--butter:#f2c94c;--on-moss:#1f1a17;--on-forest:#f6f1e7;--on-accent:#1f1a17;--shadow-pixel:3px 3px 0 #050a07;color-scheme:dark;}
 
 /* Lynn Racelo — component styles. Every value is a token from tokens.json. */
 
@@ -49,7 +49,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-sans
 .lr-card__media { aspect-ratio: 16 / 9; background: var(--mist); display: block; width: 100%; object-fit: cover; }
 .lr-card__body { display: flex; flex-direction: column; flex: 1; gap: var(--space-2); padding: var(--space-6); }
 .lr-card__eyebrow { font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
-.lr-card__title { margin: 0; font: 500 28px/34px var(--font-display); color: var(--ink); }
+.lr-card__title { margin: 0; font: 600 28px/34px var(--font-display); color: var(--ink); }
 .lr-card__summary { margin: 0; font: 400 15px/24px var(--font-mono); color: var(--ink-muted); }
 .lr-card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
 .lr-card:hover .lr-card__title { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 6px; text-decoration-thickness: 2px; }
@@ -244,7 +244,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
 .lr-card .ph i { position: absolute; display: block; border-radius: var(--radius-md); }
 .lr-feature__body { display: flex; flex-direction: column; gap: var(--space-4); padding: 40px; }
 .lr-feature__eyebrow { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
-.lr-feature__title { margin: 0; font: 500 40px/46px var(--font-display); letter-spacing: -.015em; color: var(--ink); }
+.lr-feature__title { margin: 0; font: 600 40px/46px var(--font-display); letter-spacing: -.015em; color: var(--ink); }
 .lr-feature__summary { margin: 0; font: 400 16px/26px var(--font-sans); color: var(--ink); }
 .lr-feature__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font: 400 14px/22px var(--font-mono); color: var(--ink-muted); }
 .lr-feature__list li { display: flex; gap: 10px; }
@@ -562,7 +562,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
   .pg .nav { display:flex; align-items:center; justify-content:space-between; padding:20px 64px; border-bottom:1px solid var(--line); }
   .pg .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
   .pg .brand img { width:40px; height:40px; object-fit:cover; image-rendering:pixelated; border:2px solid var(--ink); border-radius:var(--radius-sm); }
-  .pg .brand b { font:500 24px/1 var(--font-display); }
+  .pg .brand b { font:600 24px/1 var(--font-display); }
   .pg .brand b i { font-style:normal; color:var(--persimmon); }
   .pg .links { display:flex; align-items:center; gap:28px; font:500 14px/20px var(--font-mono); }
   .pg .links a { color:var(--ink); text-decoration:none; }
@@ -578,7 +578,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
   .pg .facts li b { font-weight:600; min-width:8.5em; color:var(--butter); }
   .pg .foot { position:relative; margin-top:80px; background:var(--paper-deep); border-top:1px solid var(--line); overflow:hidden; }
   .pg .foot .in { padding-top:56px; padding-bottom:96px; display:flex; justify-content:space-between; align-items:center; gap:48px; }
-  .pg .foot h2 { margin:0 0 16px; font:500 48px/54px var(--font-display); letter-spacing:-.015em; color:var(--ink); }
+  .pg .foot h2 { margin:0 0 16px; font:600 48px/54px var(--font-display); letter-spacing:-.015em; color:var(--ink); }
   .pg .foot h2 i { font-style:normal; color:var(--persimmon); }
   .pg .foot .socials { display:flex; flex-direction:column; gap:10px; text-align:right; font:500 14px/20px var(--font-mono); }
   .pg .foot .socials a { color:var(--persimmon-ink); }
@@ -589,12 +589,12 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
   .lb .banner { position:relative; height:600px; margin:32px 64px 0; }
   .lb .banner img { display:block; box-sizing:border-box; width:100%; height:100%; object-fit:cover; object-position:50% 64%; image-rendering:pixelated; border:1px solid var(--line); border-radius:var(--radius-md); }
   .lb .banner .lr-dialogue { position:absolute; right:49px; bottom:0; transform:translateY(50%); width:400px; max-width:none; box-sizing:border-box; padding:22px 24px 20px; }
-  .lb .banner h1 { margin:0 0 12px; font:500 36px/42px var(--font-display); letter-spacing:-.015em; }
+  .lb .banner h1 { margin:0 0 12px; font:600 36px/42px var(--font-display); letter-spacing:-.015em; }
   .lb .banner h1 em { font-style:italic; font-weight:400; color:var(--persimmon); }
   .lb .banner .lr-dialogue p { margin:0; font:400 15px/24px var(--font-mono); }
   .lb .ctas { display:flex; gap:16px; }
   .lb .sheet { margin:159px 64px 0; padding:48px; display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center; }
-  .lb .sheet blockquote { margin:0 0 20px; font:italic 400 28px/38px var(--font-display); color:var(--on-forest); }
+  .lb .sheet blockquote { margin:0 0 20px; font:italic 600 28px/38px var(--font-display); color:var(--on-forest); }
   .lb .sheet .bio { margin:0 0 28px; max-width:36em; font:400 17px/28px var(--font-sans); color:var(--on-forest); }
   .lb .sheet .lr-btn--secondary { color:var(--on-forest); border-color:var(--on-forest); }
   .lb .sheet .lr-btn--secondary:hover { background:color-mix(in oklab, var(--on-forest), transparent 86%); }
@@ -625,7 +625,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
     <div class="lr-dialogue"><h1>Calm, cohesive, and<br>a little <em>enchanted.</em></h1><p>Hi! Welcome to my corner of the forest. Have a look around.<span class="lr-dialogue__next" aria-hidden="true"></span></p></div>
   </section>
   <section class="sheet lr-forest" id="about">
-    <div><blockquote>“Growing up on cozy games and animations, I still believe design can inspire awe that feels like magic.”</blockquote>
+    <div><blockquote>“Growing up on cozy games and animations,<br>I still believe design can inspire awe that<br>feels like magic.”</blockquote>
       <p class="bio">Driven by a yearning to care for others, I pursued clinical nutrition and fitness. Now, I am pursuing my master's at UC Berkeley to learn the skills to build health technology that can empower others.</p>
       <div class="ctas"><a class="lr-btn lr-btn--primary" href="#projects"><svg class="lr-btn__spark" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg>See my projects</a><a class="lr-btn lr-btn--secondary" href="https://www.linkedin.com/in/lynn-racelo/">Get in touch</a></div></div>
     <ul class="facts">
