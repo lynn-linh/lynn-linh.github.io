@@ -221,7 +221,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
 /* FilterTabs — mono category tabs; the active one is a pressed pixel button */
 .lr-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .lr-tab {
-  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px;
   font: 500 14px/20px var(--font-mono); color: var(--ink); background: transparent; cursor: pointer;
   border: 2px solid var(--line); border-radius: var(--radius-sm);
 }
@@ -567,6 +567,13 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
   .rs { display:flex; flex-direction:column; min-height:100vh; }
   .rs main { flex:1; display:grid; place-items:center; padding:96px 64px; }
   .rs .lr-dialogue { max-width:none; padding:24px 32px; font:400 20px/30px var(--font-mono); }
+  /* the box is a link back to the homepage: it lifts on hover and presses in on click, like the primary button */
+  .rs a.lr-dialogue { display:block; text-decoration:none; transition:transform .08s steps(2), box-shadow .08s steps(2); }
+  .rs a.lr-dialogue:hover { transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink); }
+  .rs a.lr-dialogue:active { transform:translate(3px,3px); box-shadow:none; }
+  .rs a.lr-dialogue:focus-visible { outline:2px solid var(--persimmon-ink); outline-offset:3px; }
+  .rs .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  @media (prefers-reduced-motion: reduce) { .rs a.lr-dialogue { transition:none; } }
 </style>
 </head>
 <body>
@@ -579,7 +586,7 @@ html.lr-motion .lr-reveal.done { clip-path: none; }
     <a class="brand" href="index.html"><img src="lynn-sprout.png" alt=""><b>Lynn Racelo<i>.</i></b></a>
     <nav class="links"><a href="index.html#projects">projects</a><a href="index.html#about">about</a><a href="resume.html" aria-current="page">résumé</a><span class="lr-tag lr-tag--status">Let's work together</span><button class="lr-theme-toggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="lr-theme-toggle__night" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-crescent"/></svg><svg class="lr-theme-toggle__day" viewBox="0 0 7 7" aria-hidden="true"><use href="#px-sparkle"/></svg></button></nav>
   </header>
-  <main><div class="lr-dialogue" role="status">Coming soon!<span class="lr-dialogue__next" aria-hidden="true"></span></div></main>
+  <main><a class="lr-dialogue" href="index.html">Coming soon!<span class="sr"> Back to the homepage</span><span class="lr-dialogue__next" aria-hidden="true"></span></a></main>
 </div>
 <script>
   (function () {
